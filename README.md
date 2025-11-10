@@ -54,9 +54,12 @@ The key mechanisms of NEAT are:
 * Structural mutation: adds new neurons or new connections over time, allowing networks to grow in complexity.
 * Speciation: groups similar networks into species, protecting innovation so that new structures can evolve without being immediately discarded.
 
-The goal of evolution is to maximize a fitness function — in this project, typically the distance traveled before crashing.
+The goal of evolution is to maximize a fitness function. In this project it is typically the distance traveled before crashing but will you will have to improve it by proposing a better reward function.
 
 After several generations, NEAT often produces neural networks that display emergent, intelligent behaviors — such as turning smoothly, avoiding walls, and following the track — all learned automatically through evolution.
+
+A good introduction to NEAT can be found in this video:
+https://www.youtube.com/watch?v=yVtdp1kF0I4
 
 ### Pygame
 
