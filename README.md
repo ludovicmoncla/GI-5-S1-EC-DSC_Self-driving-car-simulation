@@ -69,6 +69,7 @@ https://www.youtube.com/watch?v=yVtdp1kF0I4
 ## Getting started
 
 Follow these steps to set up and run the simulation on your computer.
+Python 3.13 is recommended for this project.
 
 ### Clone the Repository (or Download as ZIP)
 
@@ -77,14 +78,14 @@ git clone https://github.com/ludovicmoncla/GI-5-S1-EC-DSC_Self-driving-car-simul
 ```
 ### (Optional) Option 1. Create a Virtual Environment
 ```bash
-python -m venv .venv
+python3.13 -m venv .venv
 source .venv/bin/activate  # On Windows use `.venv\Scripts\activate`
 ```
 
 ### (Optional) Option 2. Create a Conda Environment
 
 ```bash
-conda create --name self_driving_car python=3.11
+conda create --name self_driving_car python=3.13
 conda activate self_driving_car
 ```
 
