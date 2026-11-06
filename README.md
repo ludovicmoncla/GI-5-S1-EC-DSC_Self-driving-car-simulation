@@ -1,5 +1,3 @@
-![INSA](https://www.insa-lyon.fr/sites/all/themes/insa/logo.png)
-
 
 # GI-5-S1-EC-DSC - Self-driving car simulation
 
@@ -14,6 +12,16 @@ Over multiple generations, a population of neural networks evolves: those that p
 
 This experiment demonstrates how complex behavior can emerge naturally from simple evolutionary principles, contextual feedback, and reward signals.
 
+
+## Session Schedule
+
+This lab is organised into three two-hour sessions:
+
+| Session | Date and time | Location | Format |
+| --- | --- | --- | --- |
+| Session 1 | Tuesday, November 17, 10:00–12:00 | Room Thorgal | Supervised lab session |
+| Session 2 | Tuesday, November 24, 10:00–12:00 | Room Thorgal | Supervised lab session |
+| Session 3 | Monday, November 30, 10:00–12:00 | Room Thorgal | Independent work |
 
 ## Academic Integrity and Authorized Resources
 
@@ -76,6 +84,7 @@ Python 3.13 is recommended for this project.
 ```bash
 git clone https://github.com/ludovicmoncla/GI-5-S1-EC-DSC_Self-driving-car-simulation.git
 ```
+
 ### (Optional) Option 1. Create a Virtual Environment
 ```bash
 python3.13 -m venv .venv
@@ -103,102 +112,74 @@ pip install -r requirements.txt
 * `maps/`: Directory containing different map layouts for the simulation.
 * `README.md`: This document, describing the tutorial and experiment tasks.
 
+## Session 1 — Getting Started and Tuning the Simulation
 
+### Learning Objectives
 
-## Running the Simulation
+By the end of this session, you should be able to:
 
-To start the simulation, simply run the file from your IDE with the following command:
+* Set up the project and run the initial simulation.
+* Explain the main roles of Pygame, NEAT, the car sensors, and the fitness function.
+* Observe and describe the baseline behaviour of the cars.
+* Experiment with the car speed, rotation angle, population size, and sensor configuration.
+* Compare several configurations and justify which one performs best.
 
-```python
+### Suggested Schedule
+
+* **10:00–10:15:** Introduction, setup, and instructions.
+* **10:15–10:35:** Run and analyse the baseline simulation.
+* **10:35–11:30:** Modify parameters one at a time and record the results.
+* **11:30–11:50:** Compare configurations and identify a promising combination.
+* **11:50–12:00:** Save the results and prepare a short summary for the next session.
+
+### 1. Run and Observe the Baseline Simulation
+
+Start the simulation from your IDE with the following command:
+
+```bash
 python self-driving-car-simulation.py
 ```
 
 Make sure the `config-feedforward.txt` file is in the same directory as the simulation script.
 
-* What happens when you run the simulation?
+Before making any changes, observe the simulation and consider the following questions:
 
+* How do the cars behave?
+* What information do their sensors provide?
+* How does NEAT evaluate and select the cars between generations?
 
-## Improving the Simulation
-
-### 1. Tweak Parameters
+### 2. Tweak the Parameters
 
 * Adjust variables from the `Car` class from `self-driving-car-simulation.py` such as:
-    - the speed
-    - the rotation angle
-    - the number of sensors and sensor angle
+    * The speed.
+    * The rotation angle.
+    * The number and angles of the sensors.
 
 * Adjust variables from the NEAT `config-feedforward.txt` file such as:
-    - the number of cars per generation 
-    - fitness threshold
+    * The number of cars per generation.
+    * The fitness threshold.
 
+Adjust the parameters one at a time and record how each change affects the cars' performance.
 
-Note: You should adjust those parameters one by one and observe how these changes affect the car's performance.
-
-* What happens if the rotation angle is set to 90°? 
+* What happens if the rotation angle is set to 90°?
 
 * What is the best combination of parameters for optimal performance?
 
 ---
-> Default parameters:
->  * speed = 2 
->  * rotation_angle = 2
->  * cars per generation = 10
->  * only one forward-facing sensor
+
+> **Default parameters:**
+>
+> * `speed = 2`
+> * `rotation_angle = 2`
+> * 10 cars per generation
+> * One forward-facing sensor
 
 ---
 
+### Expected Outcome
 
-### 2. Designing a Better Reward Function
+At the end of the session, keep a record of:
 
-Redesigning the reward function is one of the most effective ways to improve the agent’s learning performance and encourage more realistic driving behavior.
-
-By default, the reward function is mainly based on the time the car remains alive on the track.
-While simple, this can lead to undesirable behaviors — for example, the car might spin in circles to stay alive longer instead of progressing along the road.
-
-To encourage more realistic driving, try modifying the `get_reward()` function to include factors such as:
-* Forward progress (distance traveled in the right direction),
-* Penalties for collisions or spinning,
-* Bonuses for speed or smooth turns.
-
-Experiment by changing the reward function and observe how it affects the car’s behavior and learning performance.
-
-### 3. Activation Function
-
-* Experiment with different activation functions in the output layer and compare their effects.
-* Consider alternative strategies for interpreting the network output:
-    - Default: `i = output.index(max(output))` 
-    - Solution 1: Use a decision threshold
-    - Solution 2: Compute a weighted combination of outputs (e.g., transform separate left/right turning values into a single steering output)
-
-
-### 4. Speed Control
-
-* Add an output variable for controlling speed dynamically. 
-
-
-### 5. Finish Line Detection
-
-* Implement a finish line detection mechanism. This can be used to:
-    - launch a new generation when a car reaches the end of the track,
-    - reward cars that reach the end of the track.
-
-
-### 6. Wrong-way Detection
-
-* Add a mechanism to detect when a car is going in the wrong direction and penalize it accordingly.
-
-
-
-### 7. Experiment with a New Map
-
-* Create a new map with different obstacles and road configurations
-* Save the model trained on the first map and run it on the new map
-
-
-
-## Summary and Further Exploration
-
-Through this lab, you have seen how complex driving behaviors can emerge from simple evolutionary principles.
-
-To go further, you could replace the NEAT algorithm with a **deep reinforcement learning** approach such as a **Deep Q-Network (DQN)**, where a neural network learns to approximate the **Q-function** that maps sensor inputs to driving actions.
-Comparing both methods would highlight the differences between **evolutionary learning** and **reward-based optimization**, offering deeper insight into how autonomous agents can learn from interaction and feedback.
+* The parameters and configurations you tested.
+* The behaviour observed during each experiment.
+* The configuration you selected and the reasons for your choice.
