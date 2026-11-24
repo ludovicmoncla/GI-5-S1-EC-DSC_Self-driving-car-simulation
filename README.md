@@ -212,6 +212,73 @@ Students should produce:
 * A short explanation linking the chosen reward criteria to the resulting driving behaviour.
 * Optionally, a working implementation of dynamic speed control.
 
+# Session 3 — Improving Robustness and Evaluating the Model
+
+**Date:** Monday, November 30  
+**Time:** 10:00–12:00  
+**Location:** Room Thorgal  
+**Format:** Independent work
+
+## Learning Objectives
+
+By the end of this session, students should be able to:
+
+* Implement and test an additional mechanism that makes the simulation more robust.
+* Define an appropriate reward or penalty for the new mechanism.
+* Assess whether a trained model generalises to a different track.
+* Summarise and justify the main design decisions made during the lab.
+
+## Suggested Activities
+
+The order and timings below are provided as guidance only. You may complete the activities in a different order and adjust the time spent on each one according to your progress.
+
+### 1. Implement a Core Improvement — 60 minutes
+
+Choose at least one of the following mechanisms to implement:
+
+* Finish-line detection, used to reward a completed lap or start a new generation when a car reaches the end of the track.
+* Wrong-way detection, used to identify and penalise movement in the incorrect direction.
+
+Completing one robust and well-tested mechanism is preferable to attempting both without validating them.
+
+* Define the expected behaviour before writing the implementation. 
+* Connect the new mechanism to the fitness function and check that its reward or penalty has the intended influence on learning.
+
+### 3. Extension: Test a New Map — 25 minutes
+
+If the core improvement is complete:
+
+* Select a map with a different road layout.
+* Save the best model trained on the original map.
+* Run that model on the new map without retraining it first.
+* Compare its behaviour before and after additional training.
+
+### 4. Final Summary
+
+Prepare a concise summary containing:
+
+* The parameters and sensor configuration retained.
+* The final fitness function and the reasoning behind it.
+* The additional mechanism implemented during this session.
+* Evidence from the experiments.
+* Limitations and possible future improvements.
+
+## Expected Outcome
+
+Students should produce:
+
+* One functional and tested improvement: finish-line detection or wrong-way detection.
+* Experimental results showing its effect on the simulation.
+* A concise synthesis of the work completed across the three sessions.
+* Optionally, an evaluation of the trained model on a new map.
+
+
+## Summary and Further Exploration
+
+Through this lab, you have seen how complex driving behaviors can emerge from simple evolutionary principles.
+
+To go further, you could replace the NEAT algorithm with a **deep reinforcement learning** approach such as a **Deep Q-Network (DQN)**, where a neural network learns to approximate the **Q-function** that maps sensor inputs to driving actions.
+Comparing both methods would highlight the differences between **evolutionary learning** and **reward-based optimization**, offering deeper insight into how autonomous agents can learn from interaction and feedback.
 
 
 
