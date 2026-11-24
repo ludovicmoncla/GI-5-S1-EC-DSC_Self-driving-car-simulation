@@ -253,6 +253,8 @@ If the core improvement is complete:
 * Run that model on the new map without retraining it first.
 * Compare its behaviour before and after additional training.
 
+> **Note:** You'll find the test() function code in the test-function.py file. You can use it to load a saved model and run it on a new map. Copy the function into your simulation script and call it with the appropriate parameters.
+
 ### 4. Final Summary
 
 Prepare a concise summary containing:
