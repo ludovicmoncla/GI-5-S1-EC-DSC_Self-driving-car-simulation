@@ -232,7 +232,7 @@ By the end of this session, students should be able to:
 
 The order and timings below are provided as guidance only. You may complete the activities in a different order and adjust the time spent on each one according to your progress.
 
-### 1. Implement a Core Improvement — 60 minutes
+### 1. Implement a Core Improvement — 50 minutes
 
 Choose at least one of the following mechanisms to implement:
 
@@ -244,7 +244,8 @@ Completing one robust and well-tested mechanism is preferable to attempting both
 * Define the expected behaviour before writing the implementation. 
 * Connect the new mechanism to the fitness function and check that its reward or penalty has the intended influence on learning.
 
-### 3. Extension: Test a New Map — 25 minutes
+
+### 2. Extension: Test a New Map — 50 minutes
 
 If the core improvement is complete:
 
@@ -255,7 +256,7 @@ If the core improvement is complete:
 
 > **Note:** You'll find the test() function code in the test-function.py file. You can use it to load a saved model and run it on a new map. Copy the function into your simulation script and call it with the appropriate parameters.
 
-### 4. Final Summary
+### 3. Final Summary
 
 Prepare a concise summary containing:
 
