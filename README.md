@@ -74,149 +74,21 @@ https://www.youtube.com/watch?v=yVtdp1kF0I4
 [Pygame](https://www.pygame.org/docs/tut/PygameIntro.html) is a library used to create the simulation environment. It handles rendering, physics, and user interactions.
 
 
-## Session 1 — Getting Started and Tuning the Simulation
+## Session Instructions
 
-### Learning Objectives
+* [Session 1 — Getting Started and Tuning the Simulation](session-1.md)
+* [Session 2 — Improving the Learning Strategy](session-2.md)
 
-By the end of this session, you should be able to:
-
-* Set up the project and run the initial simulation.
-* Explain the main roles of Pygame, NEAT, the car sensors, and the fitness function.
-* Observe and describe the baseline behaviour of the cars.
-* Experiment with the car speed, rotation angle, population size, and sensor configuration.
-* Compare several configurations and justify which one performs best.
-
-### Suggested Schedule
-
-* **10:00–10:15:** Introduction, setup, and instructions.
-* **10:15–10:35:** Run and analyse the baseline simulation.
-* **10:35–11:40:** Modify parameters one at a time, record the results, compare configurations and identify a promising combination.
-* **11:40–12:00:** Save the results and prepare a short summary for the next session.
-
-### 1. Run and Observe the Baseline Simulation
-
-Install the required dependencies (see the **Getting started** section below) and run the simulation with the default parameters. Observe how the cars behave.
-Start the simulation from your IDE with the following command:
-
-```bash
-python self-driving-car-simulation.py
-```
-
-Make sure the `config-feedforward.txt` file is in the same directory as the simulation script.
-
-Before making any changes, observe the simulation and consider the following questions:
-
-* How do the cars behave?
-* What information do their sensors provide?
-
-### 2. Tweak the Parameters
-
-* Adjust variables from the `Car` class from `self-driving-car-simulation.py` such as:
-    * The speed.
-    * The rotation angle.
-    * The number and angles of the sensors.
-
-* Adjust variables from the NEAT `config-feedforward.txt` file such as:
-    * The number of cars per generation.
-    * The fitness threshold.
-
-Adjust the parameters one at a time and record how each change affects the cars' performance.
-
-* What happens if the rotation angle is set to 90°?
-
-* What is the best combination of parameters for optimal performance?
-
----
-
-> **Default parameters:**
->
-> * `speed = 2`
-> * `rotation_angle = 2`
-> * 10 cars per generation
-> * One forward-facing sensor
-
----
-
-### Expected Outcome
-
-At the end of the session, keep a record of:
-
-* The parameters and configurations you tested.
-* The behaviour observed during each experiment.
-* The configuration you selected and the reasons for your choice.
-
-
-# Session 2 — Improving the Learning Strategy
-
-**Date:** Tuesday, November 24  
-**Time:** 10:00–12:00  
-**Location:** Room Thorgal  
-**Format:** Supervised lab session
-
-## Learning Objectives
-
-By the end of this session, students should be able to:
-
-* Explain the limitations of a fitness function based only on survival time.
-* Design a fitness function that encourages useful driving behaviour.
-* Compare different ways of interpreting the neural network outputs.
-* Evaluate changes through controlled experiments.
-* Optionally add dynamic speed control to the car.
-
-## Suggested Activities
-
-The order and timings below are provided as guidance only. You may complete the activities in a different order and adjust the time spent on each one according to your progress.
-
-### 1. Review the Baseline — 15 minutes
-
-Run the best configuration retained after Session 1 and identify any remaining undesirable behaviours, such as driving in circles, moving too slowly, or surviving without making progress.
-
-### 2. Improve the Fitness Function — 50 minutes
-
-Modify `get_reward()` and test combinations of the following criteria:
-
-* Survival time.
-* Distance travelled or forward progress.
-* Collision penalties.
-* Penalties for spinning or failing to make progress.
-* Bonuses for smooth steering or maintaining an appropriate speed.
-
-Change one factor at a time whenever possible. Record the fitness formulation, parameter values, and observed behaviour for each experiment.
-
-The default reward is mainly based on the time for which a car remains alive. This may encourage undesirable behaviour: for example, a car could spin in circles instead of progressing along the road. The revised function should explicitly address this limitation.
-
-### 3. Interpret the Network Outputs — 30 minutes
-
-Compare at least two control strategies:
-
-* Selecting the action associated with the largest output value: `i = output.index(max(output))`.
-* Applying a decision threshold.
-* Computing a weighted combination of the outputs, for example by transforming separate left and right values into a single steering command.
-
-Students may also experiment with different activation functions and discuss their effect on the controls.
-
-### 4. Extension: Dynamic Speed Control — 15 minutes
-
-If time permits, add a neural network output that controls the car speed. Define a safe speed range and observe whether the car learns to slow down before difficult turns.
-
-### 5. Wrap-up — 10 minutes
-
-Select the most convincing fitness function and control strategy. Save the configuration and write a short explanation of why they were retained.
-
-## Expected Outcome
-
-Students should produce:
-
-* An improved and documented fitness function.
-* A comparison of at least two experiments.
-* A short explanation linking the chosen reward criteria to the resulting driving behaviour.
-* Optionally, a working implementation of dynamic speed control.
+The detailed instructions for Session 3 are provided below.
 
 # Session 3 — Improving Robustness and Evaluating the Model
 
-**Date:** Monday, November 30  
-**Time:** 10:00–12:00  
-**Location:** Room Thorgal  
+**Date:** Monday, November 30
+
+**Time:** 10:00–12:00
+
+**Location:** Room Thorgal
+
 **Format:** Independent work
 
 ## Learning Objectives
@@ -241,16 +113,85 @@ Choose at least one of the following mechanisms to implement:
 
 Completing one robust and well-tested mechanism is preferable to attempting both without validating them.
 
-* Define the expected behaviour before writing the implementation. 
+* Define the expected behaviour before writing the implementation.
 * Connect the new mechanism to the fitness function and check that its reward or penalty has the intended influence on learning.
 
+#### Implementation hints
 
-### 2. Extension: Test a New Map — 50 minutes
+When implementing the new mechanisms, consider the following:
+In the `Car` class, `self.pos` is the top-left corner of the sprite and `self.center` is the centre already used for radar and collision calculations. `Car.__init__()` sets the initial centre, and `Car.update()` recalculates it after each move. Inside a new `Car` method (e.g., `def check_finish_line(self):`), use `x, y = self.center` to read the current coordinates.
+
+The position of the finish line or checkpoints can be hard-coded in the method, or passed as parameters. Use the same coordinates for both drawing and detection.
+> In the default map, the finish line is a vertical segment from `(650, 650)` to `(650, 750)`, crossed from left to right. 
+
+##### Track the previous position
+
+Initialise the previous coordinates in `Car.__init__()` immediately after assigning `self.center`.
+
+```python
+self.prev_x, self.prev_y = self.center
+```
+
+In `run_car()`, find the `# Update car physics and fitness` loop. For each living car, run your checks immediately before `car.update(map)`. At this point, the centre reflects the previous loop iteration's move. Once all your checks have read the two positions, save the current centre as the previous position, then let `car.update(map)` move the car again.
+
+Update both saved coordinates every frame, even when the car crosses nothing. If you implement both mechanisms, keep the history update in one place so both checks see the same movement. On the first frame the two positions are equal, so there is no crossing.
+
+##### Option A — Finish-line detection
+
+1. On `maps/map.png`, try a vertical finish line from `(650, 650)` to `(650, 750)`, crossed from left to right. Draw it with `pygame.draw.line()` during rendering, using the same endpoints for drawing and detection.
+2. Add a `check_finish_line(self)` method to `Car`. For a first version, test whether the current y-coordinate is in the finish line's span, then use the previous and current x-coordinates to work out whether the car reached or passed `x = 650` from the left. Fill in the missing crossing test and return the result.
+
+   ```python
+   def check_finish_line(self):
+       x, y = self.center
+       in_span = 650 <= y <= 750
+       # TODO: Compare self.prev_x and x with 650 to check the direction.
+       # TODO: Return True only when the span and crossing tests both pass.
+   ```
+
+   A move from `(647, 700)` to `(654, 700)` should count even though neither x-coordinate is exactly `650`. Reaching `650` from the left should count once. Starting the next frame at `650` and moving right should produce no second event. Use this pair of cases to decide which side of the inequality needs a strict comparison.
+
+3. In `run_car()`, use the returned boolean to add a one-time bonus to `genomes[i][1].fitness`. If you want the first finish to end the generation, initialise a flag to `False` at the start of each frame, set it when any car finishes, and use it in the loop's stopping condition after processing all cars.
+
+A correct crossing gives you a finish event. If your design needs to verify a full lap, an extension is to require the car to pass through checkpoints in order before accepting the finish.
+
+##### Option B — Wrong-way detection
+
+The expected direction changes around the track. Place **directed checkpoints** across a few straight stretches so you can compare the actual direction of each crossing with the expected direction at that location. Start with one checkpoint, test both directions, then add more.
+
+In `run_car()`, a checkpoint can be a tuple of `(start, end, expected_direction)`. On `maps/map.png`, you can start with these two examples and use `pygame.draw.line()` to check where they land.
+
+```python
+check_points = [
+    ((1180, 350), (1350, 350), "up"),
+    ((700, 50), (700, 150), "left"),
+]
+```
+
+Add `check_checkpoints(self, checkpoints)` to `Car` and pass `check_points` when you call it. Start by unpacking each checkpoint with `for start, end, expected_direction in checkpoints:`. Use the endpoints to choose which coordinates to compare.
+
+| Checkpoint | Test the segment's span using | Compare across frames to find direction |
+| --- | --- | --- |
+| Vertical (same x at both ends) | `y` against the endpoint y-values | `self.prev_x` and `x`. Increasing x means right. |
+| Horizontal (same y at both ends) | `x` against the endpoint x-values | `self.prev_y` and `y`. Decreasing y means up in Pygame. |
+
+For the first checkpoint above, use the finish-line idea with the axes swapped. At `x = 1250`, a move from `y = 355` to `y = 345` crosses the line upwards. The reverse move crosses downwards and should trigger a wrong-way event. The same moves at `x = 1100` fall outside the segment. Derive the equivalent tests for left and right crossings of the second checkpoint.
+
+Distinguish three outcomes in your method. A crossing in the expected direction can increment a `self.checkpoints` counter, which starts at zero in `__init__()`. A crossing in the opposite direction should report a wrong-way event. With no crossing, leave the counter and return without reporting an event. This method checks direction at the checkpoint lines, so wrong-way movement between lines may go undetected.
+
+##### Connect the event to fitness and test it
+
+* Keep the Session 2 reward as your baseline. Apply a finish bonus or wrong-way penalty once per event in `run_car()`, alongside the existing `get_reward()` call. A cumulative term such as `laps_completed * bonus` inside `get_reward()` would add the same bonus again on every subsequent frame.
+* Test with fixed pairs of centre coordinates before relying on training runs. For either detector, try a valid crossing, a reverse crossing, crossing outside the segment's span, a stationary car on the line, and the frame immediately after a crossing.
+* If the span test behaves unexpectedly on fast diagonal moves near an endpoint, try computing where the movement between the two centres intersects the line and test the span at that point.
+* Compare runs with and without the bonus or penalty using the same map and Session 2 settings. Record the value you used and an observable outcome, such as how often cars reach the finish or cross a checkpoint backwards.
+
+### 2. Test a New Map — 50 minutes
 
 If the core improvement is complete:
 
-* Select a map with a different road layout.
 * Save the best model trained on the original map.
+* Select a map with a different road layout.
 * Run that model on the new map without retraining it first.
 * Compare its behaviour before and after additional training.
 
